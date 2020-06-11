@@ -1,6 +1,9 @@
-# things habitica
+# Habithings (Habitica + Things)
 
-[habitica v3 api](https://habitica.com/apidoc/)
+**Create and score to habitica from mac application Things 3**
+
+- [Things 3](https://culturedcode.com/things/) is the award-winning personal task manager that helps you achieve your goals.
+- [Habitica](https://habitica.com/) is a free habit and productivity app that treats your real life like a game.
 
 # Usage
 

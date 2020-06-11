@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "things-habitica"
+version = "0.1.0"
+description = ""
+authors = ["seulchankim <bartkim0426@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+httpx = "^0.13.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
