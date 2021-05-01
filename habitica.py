@@ -8,10 +8,10 @@ from dataclasses import dataclass
 import httpx
 
 HABITICA_API_USER = os.getenv('HABITICA_API_USER')
-HABITICA_API_KEY = os.getenv('HABITICA_API_KEY')
+HABITICA_API_KEY =  os.getenv('HABITICA_API_KEY')
 
 # TODO: change to relative path
-THINGS_DB = "/Users/seulchankim/Library/Containers/com.culturedcode.ThingsMac/Data/Library/Application Support/Cultured Code/Things/Things.sqlite3"
+THINGS_DB = "/Users/INSERTUSERNAME/Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac/Things Database.thingsdatabase/main.sqlite"
 HABITICA_HEADERS = {
     "x-api-user": HABITICA_API_USER,
     "x-api-key": HABITICA_API_KEY,
@@ -95,7 +95,7 @@ class HabiThings:
             "text": content,
             "type": "todo",
             "alias": f'task-from-things-{things_uuid}',
-            "priority": 0.1,  # 0.1, 1, 1.5, 2
+            "priority": 1,  # 0.1, 1, 1.5, 2
         }
         res = httpx.post(url, data=json.dumps(data), headers=HABITICA_HEADERS)
         return res

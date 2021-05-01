@@ -134,3 +134,5 @@ yarn-error.log*
 .env
 Things.sqlite3
 thingsvitica.sh
+env
+daily_create_and_score_log.txt
