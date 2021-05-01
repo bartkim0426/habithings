@@ -18,6 +18,8 @@ HABITICA_HEADERS = {
     "Content-Type": "application/json",
 }
 
+RATE_LIMIT = 30 #how many operations per minute does the habitica API allow for?
+
 
 @dataclass
 class TaskResult:
@@ -119,7 +121,12 @@ class HabiThings:
     def create_and_score(self, things_rows: list) -> list:
         # TODO: change results to namedtuple
         results = []
+        i = 0
         for row in things_rows:
+            if i == RATE_LIMIT:
+                # we have hit the RATE_LIMIT, let's wait
+                time.sleep(60)
+                i = 0
             content, things_uuid = row[0:2]
             create_res = self.create_habitica_task(content, things_uuid)
             task_id = self.get_task_id_from_response(create_res)
@@ -131,6 +138,7 @@ class HabiThings:
             results.append(
                 TaskResult(task_id, content, is_score_success)
             )
+            i += 1
         return results
 
     def create_and_score_by_date(self, start_date: str, end_date=date.today().strftime('%Y-%m-%d')) -> list:
