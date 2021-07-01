@@ -36,6 +36,12 @@ $ source env
 python daily_create_and_score
 ```
 
+Run regularly by adding 
+```
+*/30 * * * * bash [PATH]/habithings/daily_create_and_score.sh
+```
+to your crontab (`crontab -e`)
+
 ## Function
 
 ### Mandatory
