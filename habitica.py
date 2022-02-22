@@ -8,15 +8,17 @@ from dataclasses import dataclass
 import httpx
 
 HABITICA_API_USER = os.getenv('HABITICA_API_USER')
-HABITICA_API_KEY = os.getenv('HABITICA_API_KEY')
+HABITICA_API_KEY =  os.getenv('HABITICA_API_KEY')
 
 # TODO: change to relative path
-THINGS_DB = "/Users/seulchankim/Library/Containers/com.culturedcode.ThingsMac/Data/Library/Application Support/Cultured Code/Things/Things.sqlite3"
+THINGS_DB = "/Users/INSERTUSERNAME/Library/Group Containers/JLMPQHK86H.com.culturedcode.ThingsMac/Things Database.thingsdatabase/main.sqlite"
 HABITICA_HEADERS = {
     "x-api-user": HABITICA_API_USER,
     "x-api-key": HABITICA_API_KEY,
     "Content-Type": "application/json",
 }
+
+RATE_LIMIT = 30 #how many operations per minute does the habitica API allow for?
 
 
 @dataclass
@@ -95,7 +97,7 @@ class HabiThings:
             "text": content,
             "type": "todo",
             "alias": f'task-from-things-{things_uuid}',
-            "priority": 0.1,  # 0.1, 1, 1.5, 2
+            "priority": 1,  # 0.1, 1, 1.5, 2
         }
         res = httpx.post(url, data=json.dumps(data), headers=HABITICA_HEADERS)
         return res
@@ -119,7 +121,12 @@ class HabiThings:
     def create_and_score(self, things_rows: list) -> list:
         # TODO: change results to namedtuple
         results = []
+        i = 0
         for row in things_rows:
+            if i == RATE_LIMIT:
+                # we have hit the RATE_LIMIT, let's wait
+                time.sleep(60)
+                i = 0
             content, things_uuid = row[0:2]
             create_res = self.create_habitica_task(content, things_uuid)
             task_id = self.get_task_id_from_response(create_res)
@@ -131,6 +138,7 @@ class HabiThings:
             results.append(
                 TaskResult(task_id, content, is_score_success)
             )
+            i += 1
         return results
 
     def create_and_score_by_date(self, start_date: str, end_date=date.today().strftime('%Y-%m-%d')) -> list:
